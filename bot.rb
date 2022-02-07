@@ -4,7 +4,7 @@ require_relative 'bot_logic'
 
 
 class WhatsAppBot < Sinatra::Base
-  #use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/bot'
+  use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/bot'
 
   get '/' do
     "Hello World!"
