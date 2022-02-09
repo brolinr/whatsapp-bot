@@ -1,7 +1,5 @@
-require 'sinatra'
-require 'twilio-ruby'
+require 'sinatra/base'
 require_relative 'bot_logic'
-
 
 class WhatsAppBot < Sinatra::Base
   use Rack::TwilioWebhookAuthentication, ENV['TWILIO_AUTH_TOKEN'], '/bot'
@@ -20,14 +18,14 @@ class WhatsAppBot < Sinatra::Base
       greeting = ["hie", "hi", "ndeip", "hey", "hello"]
       greeting.each do |g|
         if body.include?(g)
-          message.body("Welcome #{User.username} to our bot by pressing 1 or sending 
+          message.body("Welcome Customer to our bot by pressing 1 or sending 
                         'agree' you agree to our terms and conditions outline below :")
         end
       end
 
       if body.include?("agree") || body.include?("1")
         Customer.register(name, phone)
-        message.body("Congratulations #{User.username} 
+        message.body("Congratulations Customer 
                       Your account has been successifully created: \n
                       1. Type 'Available houses' to view all the houses available.\n
                       2. Type 'Subscribe' to pay a monthly suscription fee of $10")
@@ -36,7 +34,7 @@ class WhatsAppBot < Sinatra::Base
       if body.include?("available houses")
         message.body(Property.index)
         sleep 2
-        message.body("#{User.username}, Enter the '@' symbol along with the 
+        message.body("Customer, Enter the '@' symbol along with the 
                     number assigned to the house that interests you, for
                     example: \n Type @1 to view the house assigned to 1`")
       end
@@ -48,7 +46,7 @@ class WhatsAppBot < Sinatra::Base
       
       if body.include?("078") || body.include?("077")
         Customer.subscribe(phone, body)
-        message.body("Thank you #{User.username} for paying you monthly subscription
+        message.body("Thank you Customer for paying you monthly subscription
                       to use our service. Please: \n
                       1. Type 'search' to search any available property.\n
                       2. Type 'Available houses' to view the list of all the houses available.")
