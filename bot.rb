@@ -56,14 +56,15 @@ class WhatsAppBot < Sinatra::Base
         message.body(Property.show(phone, id))
       end
 
+=begin      
       black_list =["hie", "hi", "ndeip", "hey", "hello", "search",
                     "Available houses", "subscribe", "agree", "1"]
       black_list.each do |b|
-        if !(body.include?(b))
+        unless body.include?(b)
           message.body("I only know about dogs or cats, sorry!")
         end
       end
-
+=end
     end
     
     content_type "text/xml"

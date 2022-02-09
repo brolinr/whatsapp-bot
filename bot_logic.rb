@@ -3,7 +3,7 @@ require "json"
 require "net/http"
 
 module Property
-    url = "https://api.bluffhope.herokuapp.com/properties/"
+    url = "https://api-bluffhope.herokuapp.com/properties/"
 
     def self.index
         response = HTTP.get(url)
@@ -12,14 +12,14 @@ module Property
     end
   
     def self.show(phone, id)
-      response = HTTP.get("https://api.bluffhope.herokuapp.com/properties/#{id}")
+      response = HTTP.get("https://api-bluffhope.herokuapp.com/properties/#{id}")
       JSON.parse(response.to_s)["message"]
     end
   end
   
   module Customer
     def self.register(name, phone)
-      url = URI("http://localhost:3000/customers/")
+      url = URI("https://api-bluffhope.herokuapp.com/customers")
 
       http = Net::HTTP.new(url.host, url.port);
       request = Net::HTTP::Post.new(url)
@@ -32,13 +32,13 @@ module Property
     end
   
     def self.subscribe(body, phone)
-      url = URI("http://localhost:3000/subscriptions/")
+      url = URI("https://api-bluffhope.herokuapp.com/subscriptions")
 
       http = Net::HTTP.new(url.host, url.port);
       request = Net::HTTP::Post.new(url)
       request["Content-Type"] = "application/json"
       request.body = JSON.dump({
-        "ecocsh_number": body,
+        "ecocash_number": body,
         "phone": phone
       })
 
@@ -49,7 +49,7 @@ module Property
   
   module Admin
     def self.new_property (name, address, description, contact) 
-      url = URI("http://localhost:3000/properties/")
+      url = URI("https://api-bluffhope.herokuapp.com/properties")
 
       http = Net::HTTP.new(url.host, url.port);
       request = Net::HTTP::Post.new(url)
