@@ -4,14 +4,17 @@ require "net/http"
 
 module Property
     def self.index
-      url = URI("https://api-bluffhope.herokuapp.com/properties/")
+      url = URI("https://api-bluffhope.herokuapp.com/properties")
 
-      http = Net::HTTP.new(url.host, url.port);
+      https = Net::HTTP.new(url.host, url.port)
+      https.use_ssl = true
+
       request = Net::HTTP::Get.new(url)
+
+      response = https.request(request)
       
-      response = http.request(request)
-       g=response.read_body
-       JSON.parse(g)
+      g=response.read_body
+      JSON.parse(g)
     end
   
     def self.show(phone, id)
@@ -24,14 +27,19 @@ module Property
     def self.register(name, phone)
       url = URI("https://api-bluffhope.herokuapp.com/customers")
 
-      http = Net::HTTP.new(url.host, url.port);
-      request = Net::HTTP::Post.new(url)
-      request["Content-Type"] = "application/json"
+      url = URI("https://api-bluffhope.herokuapp.com/customers")
+
+      https = Net::HTTP.new(url.host, url.port)
+      https.use_ssl = true
+      
+      request = Net::HTTP::Post.new(url)      
+      response = https.request(request)
+
       request.body = JSON.dump({
         "name": name,
         "phone": phone
       })
-      response = http.request(request)
+      response = https.request(request)
     end
   
     def self.subscribe(body, phone)

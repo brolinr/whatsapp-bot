@@ -42,7 +42,7 @@ class WhatsAppBot < Sinatra::Base
       end
       
       if body.include?("subscribe")
-        message.body("Please type in the ecocash number which you will use to pay for the subscription:\n
+        message.body("Please type in the ecocash number which you will use to pay for the subscription:
                       `For example 0787777777`")
       end
       
