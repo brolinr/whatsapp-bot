@@ -19,16 +19,15 @@ module Property
   end
 
   def self.show(id)
-    url = URI("https://api-bluffhope.herokuapp.com/properties/#{id}")
+    url = URI("https://api-bluffhope.herokuapp.com/properties/#{1}")
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
-    
+
     request = Net::HTTP::Get.new(url)
-    
+
     response = https.request(request)
-    g=response.read_body
-    response=JSON.parse(g)
+    response = JSON.parse(response)
     message.body("Description:   #{response["description"].to_s}\nAddress:  #{response["address"].to_s}\nContact:  #{response["contact"].to_s}\n\n")
   end
 end
