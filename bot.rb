@@ -78,10 +78,14 @@ class WhatsAppBot < Sinatra::Base
       end
 
       if body.include?("update")
-        Admin.update_product
+        Admin.update_product(city, address, description, contact)
       end
       
-
+      if body.include?("change the subscription amount to ")
+        amount = body.split(/change the subscription amount to /)
+        amount = amount[1]
+        Admin.set_amount(amount)
+      end
 =begin      
       black_list =["hie", "hi", "ndeip", "hey", "hello", "search",
                     "Available houses", "subscribe", "agree", "1"]

@@ -95,7 +95,7 @@ module Admin
     message.body("City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!")
   end
 
-  def self.update_property
+  def self.update_property(city, description, address, contact)
     url = URI("https://api-bluffhope.herokuapp.com/properties")
 
     https = Net::HTTP.new(url.host, url.port)
@@ -106,7 +106,7 @@ module Admin
 
     request.body = JSON.dump({
       "city": city,
-      "description": desc,
+      "description": description,
       "address": address,
       "contact": contact,
       "user_id": "2"
@@ -117,14 +117,24 @@ module Admin
     updated_property = JSON.parse(response)
 
     updated_property.each do |house|
-      message.body("
-        City:     #{house["city"].to_s}\n
-        Address:  #{house["address"].to_s}\n
-        Contact:  #{house["contact"].to_s}\n\n
-        You have successifully added a house listing!")
+      message.body("City: #{house["city"].to_s}\nAddress: #{house["address"].to_s}\nContact:  #{house["contact"].to_s}\n\nYou have successifully updated a house listing!")
     end
   end
 
+  def self.delete_property(id)
+    url = URI("https://api-bluffhope.herokuapp.com/properties/#{id}")
+
+    https = Net::HTTP.new(url.host, url.port)
+    https.use_ssl = true
+    
+    request = Net::HTTP::Delete.new(url)
+    
+    response = https.request(request)
+    g=response.read_body
+    response=JSON.parse(g)
+    message.body(g)
+  end
+  
   def self.set_amount(price)
     url = URI("https://api-bluffhope.herokuapp.com/amounts")
 
@@ -142,10 +152,7 @@ module Admin
     response = httpa.request(request)
     response = JSON.parse(response)
     
-    response.each do |price|
-      message.body("You have successifully set the subscription
-                    price to #{price["price"]}")
-    end
+    message.body("You have successifully set the subscription price to #{response["price"]}")
   end
   
 end
