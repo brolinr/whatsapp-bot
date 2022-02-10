@@ -11,7 +11,7 @@ class WhatsAppBot < Sinatra::Base
   post '/bot' do
     # FEtch the message recieved, phone number that sent it and the name of the whatsapp acount
     body = params["Body"].downcase
-    phone = params["from"]
+    phone = params["From"]
     name = params["ProfileName"]
 
     #build a response
@@ -55,9 +55,6 @@ class WhatsAppBot < Sinatra::Base
         splitting = body.split(/@/)
         id = splitting[1]
         Property.show(id)
-        Property.show.each do |property|
-          message.body("City:   #{property["city"].to_s}\nAddress:  #{property["address"].to_s}\nContact:  #{property["contact"].to_s}\n\n")
-        end
       end
 
       #If the body includes and entry seperated by hashes then add a listing
@@ -69,11 +66,11 @@ class WhatsAppBot < Sinatra::Base
         description = parameters[2]
         contact = parameters[3]
 
-=begin        if parameters.include?("") || parameters.include?(" ") && parameters.count == 4
+        if parameters.include?("") || parameters.include?(" ") && parameters.count == 4
           message.body("Please re-enter your input without the ##.")
           break
         end
-=end
+
         Admin.new_property(city, address, description, contact)
       end
 

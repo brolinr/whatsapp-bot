@@ -27,8 +27,9 @@ module Property
     request = Net::HTTP::Get.new(url)
     
     response = https.request(request)
-
-    property = JSON.parse(response)
+    g=response.read_body
+    response=JSON.parse(g)
+    message.body("Description:   #{response["description"].to_s}\nAddress:  #{response["address"].to_s}\nContact:  #{response["contact"].to_s}\n\n")
   end
 end
   
@@ -72,7 +73,7 @@ end
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.
 module Admin
   def self.new_property (city, address, description, contact) 
-    url = URI("shttp://api-bluffhope.herokuapp.com/properties")
+    url = URI("https://api-bluffhope.herokuapp.com/properties")
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
@@ -88,14 +89,12 @@ module Admin
       "user_id": "2"
     })
 
+    message.body("Description:   #{response["description"].to_s}\nAddress:  #{response["address"].to_s}\nContact:  #{response["contact"].to_s}\n\n")
+
     response = https.request(request)
-    house = response.read_body
-    house = JSON.parse(house)
-    
-    house.each do |product|
-      message.body("
-        City:     #{product["city"].to_s}\nAddress:  #{product["address"].to_s}\nContact:  #{product["contact"].to_s}\n\nYou have successifully added a house listing!")
-    end
+    deserialize = response.read_body
+    deserialize = JSON.parse(deserialize)
+    message.body("City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!")
   end
 
   def self.update_property
