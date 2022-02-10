@@ -27,7 +27,7 @@ module Property
     request = Net::HTTP::Get.new(url)
 
     response = https.request(request)
-    response = JSON.parse(response)
+     response.read_body
     message.body("Description:   #{response["description"].to_s}\nAddress:  #{response["address"].to_s}\nContact:  #{response["contact"].to_s}\n\n")
   end
 end
