@@ -35,8 +35,7 @@ class WhatsAppBot < Sinatra::Base
         Property.index.each do |property|
           message.body("\n*_#{property["id"]}._*)  *City:*    #{property["city"].to_s}\n*Description:*    #{property["description"].to_s} \n")
         end
-
-        message.body("\n\n#{name.capitalize}, Enter the '@' symbol along with the number assigned to the house that interests you, for example: \n\n Type @1 to view the house assigned to 1`")
+        Property.message
       end
       
       #If the cutomer requests to subscribe
@@ -59,6 +58,29 @@ class WhatsAppBot < Sinatra::Base
 
       #If the body includes and entry seperated by hashes then add a listing
       if body.include?("#")
+        def new_property (city, address, description, contact) 
+            url = URI("https://api-bluffhope.herokuapp.com/properties")
+        
+            https = Net::HTTP.new(url.host, url.port)
+            https.use_ssl = true
+            
+            request = Net::HTTP::Post.new(url)
+            request["Content-Type"] = "application/json"
+        
+            request.body = JSON.dump({
+              "city": city,
+              "address": address,
+              "description": description,
+              "contact": contact,
+              "user_id": "1"
+            })
+        
+            response = https.request(request)
+            deserialize = response.read_body
+            deserialize = JSON.parse(deserialize)
+           message.body"City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
+          end
+        
         parameters = body.split(/#/)
       
         city = parameters[0]
@@ -66,7 +88,7 @@ class WhatsAppBot < Sinatra::Base
         description = parameters[2]
         contact = parameters[3]
       
-        Admin.new_property(city, address, description, contact)
+        new_property(city, address, description, contact)
       end
 
       if body.include?("delete")
