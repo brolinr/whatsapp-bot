@@ -59,6 +59,12 @@ class WhatsAppBot < Sinatra::Base
 
       #If the body includes and entry seperated by hashes then add a listing
       if body.include?("#")
+        parameters = body.split(/#/)
+      
+        city = parameters[0]
+        address = parameters[1]
+        description = parameters[2]
+        contact = parameters[3]
         def new_property (city, address, description, contact) 
             url = URI("https://api-bluffhope.herokuapp.com/properties")
         
@@ -81,15 +87,6 @@ class WhatsAppBot < Sinatra::Base
             deserialize = JSON.parse(deserialize)
            message.body"City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
           end
-        
-        parameters = body.split(/#/)
-      
-        city = parameters[0]
-        address = parameters[1]
-        description = parameters[2]
-        contact = parameters[3]
-      
-        new_property(city, address, description, contact)
       end
 
       if body.include?("delete")
