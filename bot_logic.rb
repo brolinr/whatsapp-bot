@@ -29,8 +29,6 @@ module Property
     response = https.request(request)
 
     property = JSON.parse(response)
-    
-    message.body("City:   #{property["city"].to_s}\nAddress:  #{property["address"].to_s}\nContact:  #{property["contact"].to_s}\n\n")
   end
 end
   
@@ -49,6 +47,7 @@ module Customer
       "name": name,
       "phone": phone
     })
+    response = https.request(request)
   end
 
   def self.subscribe(body, phone)
@@ -65,7 +64,7 @@ module Customer
       "phone": phone
     })
 
-    response = http.request(request)
+    response = https.request(request)
     message.body(response.read_body)
   end
 end
@@ -73,7 +72,7 @@ end
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.
 module Admin
   def self.new_property (city, address, description, contact) 
-    url = URI("https://api-bluffhope.herokuapp.com/properties")
+    url = URI("shttp://api-bluffhope.herokuapp.com/properties")
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
@@ -95,10 +94,7 @@ module Admin
     
     house.each do |product|
       message.body("
-        City:     #{product["city"].to_s}\n
-        Address:  #{product["address"].to_s}\n
-        Contact:  #{product["contact"].to_s}\n\n
-        You have successifully added a house listing!")
+        City:     #{product["city"].to_s}\nAddress:  #{product["address"].to_s}\nContact:  #{product["contact"].to_s}\n\nYou have successifully added a house listing!")
     end
   end
 
