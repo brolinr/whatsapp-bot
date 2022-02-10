@@ -36,7 +36,7 @@ class WhatsAppBot < Sinatra::Base
           message.body("\n*_#{property["id"]}._*)  *City:*    #{property["city"].to_s}\n*Description:*    #{property["description"].to_s} \n\n")
         end
 
-        message.body("\n\n#{name.capitalize}, Enter the '@' symbol along with the number assigned to the house that interests you, for example: \n\n Type @1 to view the house assigned to 1`")
+        message.body("--\n\n#{name.capitalize}, Enter the '@' symbol along with the number assigned to the house that interests you, for example: \n\n Type @1 to view the house assigned to 1`")
       end
       
       #If the cutomer requests to subscribe
