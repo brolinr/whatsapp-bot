@@ -4,10 +4,7 @@ require "net/http"
 
 #The module is for indexing and showing properties
 module Property
-  def self.message
-    message.body("\n\n#{name.capitalize}, Enter the '@' symbol along with the number assigned to the house that interests you, for example: \n\n Type @1 to view the house assigned to 1`")
-  end
-
+  
   def self.index
     url = URI("https://api-bluffhope.herokuapp.com/properties")
 
