@@ -66,10 +66,6 @@ class WhatsAppBot < Sinatra::Base
         description = parameters[2]
         contact = parameters[3]
       
-        if parameters.include?("") || parameters.include?(" ") && parameters.count != 4
-          message.body("Please re-enter your input in the correct format.")
-        end
-      
         Admin.new_property(city, address, description, contact)
       end
 

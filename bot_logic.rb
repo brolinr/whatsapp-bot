@@ -86,7 +86,7 @@ module Admin
       "address": address,
       "description": description,
       "contact": contact,
-      "user_id": "2"
+      "user_id": "1"
     })
 
     response = https.request(request)
@@ -109,7 +109,7 @@ module Admin
       "description": description,
       "address": address,
       "contact": contact,
-      "user_id": "2"
+      "user_id": "1"
     })
     
     response = https.request(request)
