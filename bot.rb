@@ -25,7 +25,7 @@ class WhatsAppBot < Sinatra::Base
       end
 
       #Create cutsomer account if they agree to the terms and conditions
-      if body.include?("agree") || body.include?("1")
+      if body.include?("agree")
         Customer.register(name, phone)
         message.body("Congratulations *#{name.capitalize}* Your account has been successifully created: \n\n1. Type 'Available houses' to view all the houses available.\n2. Type 'Subscribe' to pay a monthly suscription fee of $10.")
       end
