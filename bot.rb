@@ -60,11 +60,12 @@ class WhatsAppBot < Sinatra::Base
       #If the body includes and entry seperated by hashes then add a listing
       if body.include?("#")
         parameters = body.split(/#/)
-      
-        city = parameters[0]
-        address = parameters[1]
-        description = parameters[2]
-        contact = parameters[3]
+
+        city1 = parameters[0]
+        address1 = parameters[1]
+        description1 = parameters[2]
+        contact1 = parameters[3]
+
         def new_property (city, address, description, contact) 
             url = URI("https://api-bluffhope.herokuapp.com/properties")
         
@@ -85,10 +86,12 @@ class WhatsAppBot < Sinatra::Base
             response = https.request(request)
             deserialize = response.read_body
             deserialize = JSON.parse(deserialize)
-           message.body"City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
+            message.body "City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
           end
-          new_property
-      end
+          new_property(city1, address1, description1, contact1)
+        end
+    
+    
 
       if body.include?("delete")
         Admin.delete_product(id)
