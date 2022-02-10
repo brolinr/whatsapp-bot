@@ -89,8 +89,6 @@ module Admin
       "user_id": "2"
     })
 
-    message.body("Description:   #{response["description"].to_s}\nAddress:  #{response["address"].to_s}\nContact:  #{response["contact"].to_s}\n\n")
-
     response = https.request(request)
     deserialize = response.read_body
     deserialize = JSON.parse(deserialize)
