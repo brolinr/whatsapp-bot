@@ -87,6 +87,7 @@ class WhatsAppBot < Sinatra::Base
             deserialize = JSON.parse(deserialize)
            message.body"City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
           end
+          new_property
       end
 
       if body.include?("delete")
