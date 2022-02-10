@@ -60,38 +60,13 @@ class WhatsAppBot < Sinatra::Base
       #If the body includes and entry seperated by hashes then add a listing
       if body.include?("#")
         parameters = body.split(/#/)
-
+      
         city1 = parameters[0]
         address1 = parameters[1]
         description1 = parameters[2]
         contact1 = parameters[3]
-
-        def new_property (city, address, description, contact) 
-            url = URI("https://api-bluffhope.herokuapp.com/properties")
-        
-            https = Net::HTTP.new(url.host, url.port)
-            https.use_ssl = true
-            
-            request = Net::HTTP::Post.new(url)
-            request["Content-Type"] = "application/json"
-        
-            request.body = JSON.dump({
-              "city": city,
-              "address": address,
-              "description": description,
-              "contact": contact,
-              "user_id": "1"
-            })
-        
-            response = https.request(request)
-            deserialize = response.read_body
-            deserialize = JSON.parse(deserialize)
-            message.body "City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
-          end
-          new_property(city1, address1, description1, contact1)
-        end
-    
-    
+        Admin.new_property(city1, address1, description1, contact1)
+      end
 
       if body.include?("delete")
         Admin.delete_product(id)
@@ -106,15 +81,6 @@ class WhatsAppBot < Sinatra::Base
         amount = amount[1]
         Admin.set_amount(amount)
       end
-=begin      
-      black_list =["hie", "hi", "ndeip", "hey", "hello", "search",
-                    "Available houses", "subscribe", "agree", "1"]
-      black_list.each do |b|
-        unless body.include?(b)
-          message.body("I only know about dogs or cats, sorry!")
-        end
-      end
-=end
     end
     
     content_type "text/xml"

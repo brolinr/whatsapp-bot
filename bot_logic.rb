@@ -4,7 +4,6 @@ require "net/http"
 
 #The module is for indexing and showing properties
 module Property
-  
   def self.index
     url = URI("https://api-bluffhope.herokuapp.com/properties")
 
@@ -73,7 +72,7 @@ end
   
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.
 module Admin
-  def self.new_property (city, address, description, contact) 
+  def self.new_property(city, address, description, contact) 
     url = URI("https://api-bluffhope.herokuapp.com/properties")
 
     https = Net::HTTP.new(url.host, url.port)
@@ -93,8 +92,9 @@ module Admin
     response = https.request(request)
     deserialize = response.read_body
     deserialize = JSON.parse(deserialize)
-    message.body("City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!")
+    puts"City:     #{deserialize["city"].to_s}\nAddress:  #{deserialize["address"].to_s}\nContact:  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!"
   end
+
 
   def self.update_property(city, description, address, contact)
     url = URI("https://api-bluffhope.herokuapp.com/properties")
