@@ -91,7 +91,7 @@ module Admin
 
     response = https.request(request)
     deserialize = response.read_body
-    JSON(deserialize)
+    JSON.parse(deserialize)
   end
 
 
