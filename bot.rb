@@ -44,12 +44,12 @@ class WhatsAppBot < Sinatra::Base
         message.body("Please enter the ecocash number which you will use to pay for the subscription:\n\n```e.g 0787777777```")
       end
       
-      #If the customer send the ecocash number for paying a subscription
+=begin     #If the customer send the ecocash number for paying a subscription
       if body.include?("078") || body.include?("077")
         Customer.subscribe(phone, body)
         message.body("Thank you #{name} for paying your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'search' to search any available property.\n2.) Type 'Available houses' to view the list of all the houses available.")
       end
-
+=end
       #If the customer requests a to view an individual property
       if body.include?("@")
         splitting = body.split(/@/)
