@@ -129,7 +129,6 @@ module Admin
     
     response = https.request(request)
     g = response.read_body
-    JSON.parse(g)
   end
   
   def self.set_amount(price)
