@@ -77,7 +77,7 @@ class WhatsAppBot < Sinatra::Base
         message.body("House number #{id} has been deleted.")
       end
 
-      if body.include?("##")
+=begin      if body.include?("##")
         parameters = body.split(/##/)
 
         id = parameters[0]
@@ -88,6 +88,7 @@ class WhatsAppBot < Sinatra::Base
         deserialize = Admin.update_product(id, city, address, description, contact)
         message.body("*City:*     #{deserialize["city"].to_s.capitalize}\n*Description:*  #{deserialize["description"].to_s}\n*Address:*  #{deserialize["address"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully updated a house listing!")
       end
+=end
       
       if body.include?("change the subscription amount to ")
         amount = body.split(/change the subscription amount to /)
