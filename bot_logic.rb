@@ -49,7 +49,7 @@ module Customer
     })
     response = https.request(request)
   end
-
+=begin
   def self.subscribe(body, phone)
     url = URI("https://api-bluffhope.herokuapp.com/subscriptions")
 
@@ -68,6 +68,7 @@ module Customer
     deserialize = response.read_body
     JSON(deserialize)
   end
+=end
 end
   
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.
