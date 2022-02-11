@@ -1,15 +1,27 @@
+require "uri"
+require "json"
+require "net/http"
+module Property
+    def self.create
+        require "uri"
+        require "json"
+        require "net/http"
+        
+        url = URI("http://localhost:3000/amounts")
+        
+        http = Net::HTTP.new(url.host, url.port);
+        request = Net::HTTP::Post.new(url)
+        request["Content-Type"] = "application/json"
+        request.body = JSON.dump({
+          "price": "450",
+          "user_id": "1"
+        })
+        
+        response = http.request(request)
+        deserialize = response.read_body
+        deserialize = JSON(deserialize)
+        puts"The subscription price has been changed to #{deserialize["price"]}"
 
-require_relative "bot_logic"
-
-body = "Harare#67058 Glenview 7#4 bedroom house with lounge#07712323"
-if body.include?("#")
-  parameters = body.split(/#/)
-
-  city1 = parameters[0]
-  address1 = parameters[1]
-  description1 = parameters[2]
-  contact1 = parameters[3]
-  Admin.new_property(city1, address1, description1, contact1)
 end
-
-
+end
+Property.create

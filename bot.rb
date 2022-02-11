@@ -54,7 +54,8 @@ class WhatsAppBot < Sinatra::Base
       if body.include?("@")
         splitting = body.split(/@/)
         id = splitting[1]
-        Property.show(id)
+        house = Property.show(id)
+        message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")
       end
 
       #If the body includes and entry seperated by hashes then add a listing
@@ -65,21 +66,34 @@ class WhatsAppBot < Sinatra::Base
         address1 = parameters[1]
         description1 = parameters[2]
         contact1 = parameters[3]
-        Admin.new_property(city1, address1, description1, contact1)
+        deserialize = Admin.new_property(city1, address1, description1, contact1)
+        message.body("*City:*     #{deserialize["city"].to_s.capitalize}\n*Description:*  #{deserialize["description"].to_s}\n*Address:*  #{deserialize["address"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!")
       end
 
       if body.include?("delete")
+        id = body.split(/delete/)
+        id = id[1]
         Admin.delete_product(id)
+        message.body("House number #{id} has been deleted.")
       end
 
-      if body.include?("update")
-        Admin.update_product(city, address, description, contact)
+      if body.include?("##")
+        parameters = body.split(/##/)
+
+        id = parameters[0]
+        city = parameters[1]
+        address = parameters[2]
+        description = parameters[3]
+        contact = parameters[4]
+        deserialize = Admin.update_product(id, city, address, description, contact)
+        message.body("*City:*     #{deserialize["city"].to_s.capitalize}\n*Description:*  #{deserialize["description"].to_s}\n*Address:*  #{deserialize["address"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully updated a house listing!")
       end
       
       if body.include?("change the subscription amount to ")
         amount = body.split(/change the subscription amount to /)
         amount = amount[1]
-        Admin.set_amount(amount)
+        deserialize = Admin.set_amount(amount)
+        message.body("The subscription price has been changed to #{deserialize["price"]}")
       end
     end
     
