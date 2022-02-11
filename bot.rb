@@ -73,7 +73,7 @@ class WhatsAppBot < Sinatra::Base
       if body.include?("delete")
         id = body.split(/delete/)
         id = id[1]
-        Admin.delete_product(id)
+        Admin.delete_property(id)
         message.body("House number #{id} has been deleted.")
       end
 
