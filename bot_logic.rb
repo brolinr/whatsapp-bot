@@ -19,7 +19,7 @@ module Property
   end
 
   def self.show(id)
-    url = URI("https://api-bluffhope.herokuapp.com/properties/#{1}")
+    url = URI("https://api-bluffhope.herokuapp.com/properties/#{id}")
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
