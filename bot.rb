@@ -11,7 +11,9 @@ class WhatsAppBot < Sinatra::Base
   post '/bot' do
     # FEtch the message recieved, phone number that sent it and the name of the whatsapp acount
     body = params["Body"].downcase
-    phone = params["From"]
+    from = params["From"]
+    number = from.split(/whatsapp:/)
+    phone = number[1]
     name = params["ProfileName"]
 
     #build a response
