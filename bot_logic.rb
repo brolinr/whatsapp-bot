@@ -28,7 +28,7 @@ module Property
 
     response = https.request(request)
     house = response.read_body
-    JSON(house)
+    JSON.parse(house)
   end
 end
   
