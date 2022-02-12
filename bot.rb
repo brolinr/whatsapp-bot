@@ -14,7 +14,7 @@ class WhatsAppBot < Sinatra::Base
     from = params["From"]
     number = from.split(/whatsapp:/)
     phone = number[1]
-    name = params["ProfileName"]
+    name = params["ProfileName"].capitalize
 
     #build a response
     response = Twilio::TwiML::MessagingResponse.new
