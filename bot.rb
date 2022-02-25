@@ -35,8 +35,9 @@ class WhatsAppBot < Sinatra::Base
       #Send a list of available houses
       if body.include?("available houses")
         Property.index.each do |property|
-          message.body("*_#{property["id"]}._*) *Description:*    #{property["description"].to_s}.\n\n #{name.capitalize}, Enter the number assigned to the house that interests you, for example: \n\n Type 1 to view the house assigned to 1")
+          message.body("*_#{property["id"]}._*) *Description:*    #{property["description"].to_s}.")
         end
+        message.body("\n\n *#{name.capitalize}*, Enter the number assigned to the house that interests you, for example: \n\n Type 1 to view the house assigned to 1")
       end
       
       #If the cutomer requests to subscribe
