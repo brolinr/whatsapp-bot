@@ -29,16 +29,16 @@ class WhatsAppBot < Sinatra::Base
       #Create cutsomer account if they agree to the terms and conditions
       if body.include?("agree")
         Customer.register(name, phone)
-        message.body("Congratulations *#{name.capitalize}* Your account has been successifully created: \n\n1. Type 'Available houses' to view all the houses available.\n2. Type 'Subscribe' to pay a monthly suscription fee of $10.")
+        message.body("Congratulations *#{name.capitalize}* Your account has been successifully created: \n\n1. Type 'Available houses' to view all the houses available.\n2. Type 'Subscribe' to pay a monthly suscription fee.")
       end
 
       #Send a list of available houses
       if body.include?("available houses")
         Property.index.each do |property|
-          message.body("\n*_#{property["id"]}._*)  *City:*    #{property["city"].to_s}\n*Description:*    #{property["description"].to_s} \n\n")
+          message.body("\n*_#{property["id"]}._*) *Description:*    #{property["description"].to_s} \n\n")
         end
 
-        message.body("--\n\n#{name.capitalize}, Enter the '@' symbol along with the number assigned to the house that interests you, for example: \n\n Type @1 to view the house assigned to 1`")
+        message.body("\n\n#{name.capitalize}, Enter the number assigned to the house that interests you, for example: \n\n Type 1 to view the house assigned to 1`")
       end
       
       #If the cutomer requests to subscribe
@@ -49,25 +49,23 @@ class WhatsAppBot < Sinatra::Base
     #If the customer send the ecocash number for paying a subscription
       if body.length == 10 && body.include?("078") || body.include?("077")
         response = Customer.subscribe(body, phone)
-        message.body("#{name} enter ypur pin on the pop-up to pay your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'Available houses' to view the list of all the houses available.")
+        message.body("#{name} enter your pin on the pop-up to pay your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'Available houses' to view the list of all the houses available.")
       end
       #If the customer requests a to view an individual property
       if body.length == 1 && body.to_i != 0
         id = body
         house = Property.show(id, phone)
-        message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")
+        message.body("Description:   #{house["description"]}\nContact:  #{house["contact"]}\n\n")
       end
 
       #If the body includes and entry seperated by hashes then add a listing
       if body.include?("#")
         parameters = body.split(/#/)
       
-        city1 = parameters[0]
-        address1 = parameters[1]
-        description1 = parameters[2]
-        contact1 = parameters[3]
-        deserialize = Admin.new_property(city1, address1, description1, contact1)
-        message.body("*City:*     #{deserialize["city"].to_s.capitalize}\n*Description:*  #{deserialize["description"].to_s}\n*Address:*  #{deserialize["address"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!")
+        description1 = parameters[0]
+        contact1 = parameters[1]
+        deserialize = Admin.new_property(description1, contact1)
+        message.body("*Description:*  #{deserialize["description"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully added a house listing!")
       end
 
       if body.include?("delete")
@@ -86,7 +84,7 @@ class WhatsAppBot < Sinatra::Base
         description = parameters[3]
         contact = parameters[4]
         deserialize = Admin.update_product(id, city, address, description, contact)
-        message.body("*City:*     #{deserialize["city"].to_s.capitalize}\n*Description:*  #{deserialize["description"].to_s}\n*Address:*  #{deserialize["address"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully updated a house listing!")
+        message.body("*Description:*  #{deserialize["description"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully updated a house listing!")
       end
       
       if body.include?("change the subscription amount to ")

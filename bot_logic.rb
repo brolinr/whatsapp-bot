@@ -76,7 +76,7 @@ end
 
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.
 module Admin
-  def self.new_property(city, address, description, contact) 
+  def self.new_property(description, contact) 
     url = URI("https://api-bluffhope.herokuapp.com/properties")
 
     https = Net::HTTP.new(url.host, url.port)
