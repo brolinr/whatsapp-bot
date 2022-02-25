@@ -55,8 +55,7 @@ class WhatsAppBot < Sinatra::Base
       if body.length == 1 && body.to_i != 0
         id = body
         house = Property.show(id, phone)
-          message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")          
-        end
+        message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")
       end
 
       #If the body includes and entry seperated by hashes then add a listing
