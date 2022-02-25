@@ -75,10 +75,10 @@ module Customer
 
     response = https.request(request)
     deserialize = response.read_body
-    JSON(deserialize)
+    JSON.parse(deserialize)
   end
 end
-  
+
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.
 module Admin
   def self.new_property(city, address, description, contact) 
