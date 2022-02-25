@@ -18,17 +18,26 @@ module Property
     JSON.parse(g)
   end
 
-  def self.show(id)
+  def self.show(id, phone)
     url = URI("https://api-bluffhope.herokuapp.com/properties/#{id}")
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
 
     request = Net::HTTP::Get.new(url)
+    request["Content-Type"] = "application/json"
 
+    request.body = JSON.dump({
+      "phone": phone
+    })
     response = https.request(request)
-    house = response.read_body
-    JSON.parse(house)
+    if response == "Please send 'Subscribe' to subscribe."
+      "Please send 'Subscribe' to subscribe."
+    else
+      house = response.read_body
+      JSON.parse(house)
+    end
+    
   end
 end
   
@@ -49,7 +58,7 @@ module Customer
     })
     response = https.request(request)
   end
-=begin
+
   def self.subscribe(body, phone)
     url = URI("https://api-bluffhope.herokuapp.com/subscriptions")
 
@@ -68,7 +77,6 @@ module Customer
     deserialize = response.read_body
     JSON(deserialize)
   end
-=end
 end
   
 #This module is for Admin actions such as adding and updating a property listing and also changing the subscription price.

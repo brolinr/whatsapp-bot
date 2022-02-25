@@ -46,18 +46,21 @@ class WhatsAppBot < Sinatra::Base
         message.body("Please enter the ecocash number which you will use to pay for the subscription:\n\n```e.g 0787777777```")
       end
       
-=begin     #If the customer send the ecocash number for paying a subscription
-      if body.include?("078") || body.include?("077")
+    #If the customer send the ecocash number for paying a subscription
+      if body.length == 10 && body.include?("078") || body.include?("077")
         Customer.subscribe(phone, body)
         message.body("Thank you #{name} for paying your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'search' to search any available property.\n2.) Type 'Available houses' to view the list of all the houses available.")
       end
-=end
       #If the customer requests a to view an individual property
       if body.include?("@")
         splitting = body.split(/@/)
         id = splitting[1]
-        house = Property.show(id)
-        message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")
+        house = Property.show(id, phone)
+        if house == "Please send 'Subscribe' to subscribe."
+          message.body("Please send 'Subscribe' to subscribe.")
+        else
+          message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")          
+        end
       end
 
       #If the body includes and entry seperated by hashes then add a listing
@@ -79,7 +82,7 @@ class WhatsAppBot < Sinatra::Base
         message.body("House number #{id} has been deleted.")
       end
 
-=begin      if body.include?("##")
+     if body.include?("$")
         parameters = body.split(/##/)
 
         id = parameters[0]
@@ -90,7 +93,6 @@ class WhatsAppBot < Sinatra::Base
         deserialize = Admin.update_product(id, city, address, description, contact)
         message.body("*City:*     #{deserialize["city"].to_s.capitalize}\n*Description:*  #{deserialize["description"].to_s}\n*Address:*  #{deserialize["address"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully updated a house listing!")
       end
-=end
       
       if body.include?("change the subscription amount to ")
         amount = body.split(/change the subscription amount to /)
