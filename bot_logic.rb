@@ -75,7 +75,7 @@ module Customer
 
     response = https.request(request)
     deserialize = response.read_body
-    JSON.parse(deserialize)
+    deserialize
   end
 end
 
