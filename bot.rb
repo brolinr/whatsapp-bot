@@ -23,7 +23,7 @@ class WhatsAppBot < Sinatra::Base
       #IF customer greets
       if body.include?("hie") || body.include?("hi") || body.include?("ndeip") || 
          body.include?("hello") || body.include?("hey")
-        message.body("Welcome #{name} to our bot by sending *1* or *agree* you agree to our terms and conditions outline below: ")
+        message.body("Welcome #{name} to our bot by sending *agree* you agree to our terms and conditions outline below: \n\n1) You cannot view landlord's contact details without subscribing \n2) Subscription lasts for 30 days.\n3) You only use landlord's number to enquire on the listed property only\n4) Agents are restricted from using landlords' numbers for their businesses")
       end
 
       #Create cutsomer account if they agree to the terms and conditions
@@ -52,13 +52,9 @@ class WhatsAppBot < Sinatra::Base
         message.body("#{name} enter ypur pin on the pop-up to pay your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'Available houses' to view the list of all the houses available.")
       end
       #If the customer requests a to view an individual property
-      if body.include?("@")
-        splitting = body.split(/@/)
-        id = splitting[1]
+      if body.length == 1 && body.to_i != 0
+        id = body
         house = Property.show(id, phone)
-        if house == "Please send 'Subscribe' to subscribe."
-          message.body("Please send 'Subscribe' to subscribe.")
-        else
           message.body("Description:   #{house["description"]}\nAddress:  #{house["address"]}\nContact:  #{house["contact"]}\n\n")          
         end
       end
