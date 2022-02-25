@@ -48,7 +48,7 @@ class WhatsAppBot < Sinatra::Base
       
     #If the customer send the ecocash number for paying a subscription
       if body.length == 10 && body.include?("078") || body.include?("077")
-        Customer.subscribe(phone, body)
+        Customer.subscribe(body, phone)
         message.body("Thank you #{name} for paying your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'search' to search any available property.\n2.) Type 'Available houses' to view the list of all the houses available.")
       end
       #If the customer requests a to view an individual property
