@@ -31,13 +31,8 @@ module Property
       "phone": phone
     })
     response = https.request(request)
-    if response.body == "Please send 'Subscribe' to subscribe."
-      "Please send 'Subscribe' to subscribe."
-    else
       house = response.read_body
       JSON.parse(house)
-    end
-    
   end
 end
   
