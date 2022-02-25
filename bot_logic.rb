@@ -86,8 +86,6 @@ module Admin
     request["Content-Type"] = "application/json"
 
     request.body = JSON.dump({
-      "city": city,
-      "address": address,
       "description": description,
       "contact": contact,
       "user_id": "1"
@@ -99,7 +97,7 @@ module Admin
   end
 
 
-  def self.update_property(id, city, description, address, contact)
+  def self.update_property(id, description, contact)
     url = URI("https://api-bluffhope.herokuapp.com/properties#{id}")
 
     https = Net::HTTP.new(url.host, url.port)
@@ -109,9 +107,7 @@ module Admin
     request["Content-Type"] = "application/json"
 
     request.body = JSON.dump({
-      "city": city,
       "description": description,
-      "address": address,
       "contact": contact,
       "user_id": "1"
     })
