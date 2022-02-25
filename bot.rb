@@ -35,10 +35,8 @@ class WhatsAppBot < Sinatra::Base
       #Send a list of available houses
       if body.include?("available houses")
         Property.index.each do |property|
-          message.body("*_#{property["id"]}._*) *Description:*    #{property["description"].to_s}. \n\n")
+          message.body("*_#{property["id"]}._*) *Description:*    #{property["description"].to_s}.\n\n #{name.capitalize}, Enter the number assigned to the house that interests you, for example: \n\n Type 1 to view the house assigned to 1")
         end
-
-        message.body("\n\n #{name.capitalize}, Enter the number assigned to the house that interests you, for example: \n\n Type 1 to view the house assigned to 1`")
       end
       
       #If the cutomer requests to subscribe
@@ -49,13 +47,13 @@ class WhatsAppBot < Sinatra::Base
     #If the customer send the ecocash number for paying a subscription
       if body.length == 10 && body.include?("078") || body.include?("077")
         response = Customer.subscribe(body, phone)
-        message.body("#{name} enter your pin on the pop-up to pay your monthly subscription to use our service.\n\n Please: \n\n1.) Type 'Available houses' to view the list of all the houses available.")
+        message.body("*#{name}* Customer.subscribe(body, phone).\n\n Please: \n\n1.) Type 'Available houses' to view the list of all the houses available.")
       end
       #If the customer requests a to view an individual property
       if body.length == 1 && body.to_i != 0
         id = body
         house = Property.show(id, phone)
-        message.body("Description:   #{house["description"]}\nContact:  #{house["contact"]}\n\n")
+        message.body("*Description:*   #{house["description"]}\n*Contact:*  #{house["contact"]}\n\n")
       end
 
       #If the body includes and entry seperated by hashes then add a listing
@@ -79,11 +77,9 @@ class WhatsAppBot < Sinatra::Base
         parameters = body.split(/##/)
 
         id = parameters[0]
-        city = parameters[1]
-        address = parameters[2]
-        description = parameters[3]
-        contact = parameters[4]
-        deserialize = Admin.update_product(id, city, address, description, contact)
+        description = parameters[1]
+        contact = parameters[2]
+        deserialize = Admin.update_product(id, description, contact)
         message.body("*Description:*  #{deserialize["description"].to_s}\n*Contact:*  #{deserialize["contact"].to_s}\n\nYou have successifully updated a house listing!")
       end
       
