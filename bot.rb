@@ -42,7 +42,7 @@ class WhatsAppBot < Sinatra::Base
       
       #If the cutomer requests to subscribe.
       if body.include?("subscribe")
-        message.body("Please send me the ecocash number which you wish to use to pay for the RTGS$#{deserialize["price"]} subscription:\n\n```e.g 0787777777```")
+        message.body("Please send me the ecocash number which you wish to use to pay for the subscription:\n\n```e.g 0787777777```")
       end
       
       #If the customer send the ecocash number for paying a subscription
