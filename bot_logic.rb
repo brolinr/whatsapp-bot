@@ -80,7 +80,7 @@ module Customer
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = "application/json"
     request.body = JSON.dump({
-      "description": description
+      "description": description,
       "phone": phone
     })
     
