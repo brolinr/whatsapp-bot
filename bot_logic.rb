@@ -68,7 +68,7 @@ module Customer
     })
     
     response = https.request(request)
-    response
+    response.read_body
   end
 
   def self.feedback(description, phone)
