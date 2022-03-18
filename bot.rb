@@ -95,7 +95,7 @@ class WhatsAppBot < Sinatra::Base
       end
 
       #Customers giving feed back
-      if body.include?("give Feedback")
+      if body.include?("give feedback")
         message.body("Thank you for making an effort to see us improve. Please send us your sugesstion below.")
       end
 
